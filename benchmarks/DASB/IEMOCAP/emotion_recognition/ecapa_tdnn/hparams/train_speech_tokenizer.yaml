@@ -74,8 +74,8 @@ test_dataloader_opts:
     batch_size: !ref <test_batch_size>
 
 # Modules
-codec: !new:speechbrain.lobes.models.discrete.speechtokenizer_interface.SpeechTokenizer_interface
-    source: fnlp/SpeechTokenizer  # Only the 24kHz version supports mono audio
+codec: !new:speechbrain.integrations.audio_tokenizers.speechtokenizer_interface.SpeechTokenizer
+    source: !apply:os.environ.get [CHECKPOINT_PATH]  # Only the 24kHz version supports mono audio
     save_path: !ref <save_folder>
 
 discrete_embedding_layer: !new:custom_model.Discrete_EmbeddingLayer

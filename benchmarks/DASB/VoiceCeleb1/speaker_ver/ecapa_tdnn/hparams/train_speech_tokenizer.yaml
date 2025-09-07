@@ -73,8 +73,8 @@ freeze_embedding: False
 out_n_neurons: 1211  #1211 for vox1  # 5994 for vox2, 7205 for vox1+vox2
 
 # Modules
-codec: !new:speechbrain.lobes.models.discrete.speechtokenizer_interface.SpeechTokenizer_interface
-    source: fnlp/SpeechTokenizer  # Only the 24kHz version supports mono audio
+codec: !new:speechbrain.integrations.audio_tokenizers.speechtokenizer_interface.SpeechTokenizer
+    source: !apply:os.environ.get [CHECKPOINT_PATH]  # Only the 24kHz version supports mono audio
     save_path: !ref <save_folder>
 
 discrete_embedding_layer: !new:custom_model.Discrete_EmbeddingLayer
