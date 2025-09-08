@@ -63,7 +63,7 @@ class SpeechTokenizer(nn.Module):
     ):
 
         super().__init__()
-
+        
         if os.path.isdir(source):
             import sys
             module_path = os.environ.get("CODEC_PATH")
@@ -71,7 +71,7 @@ class SpeechTokenizer(nn.Module):
                 raise ValueError("Please set SPEECH_TOKEN_MODIFIED env var")
             if module_path not in sys.path:
                 sys.path.insert(0, module_path)
-            from codec.model_distill import Model as CodecModel
+            from codec.model import Model as CodecModel
 
             # Local model
             saved_dir = source
