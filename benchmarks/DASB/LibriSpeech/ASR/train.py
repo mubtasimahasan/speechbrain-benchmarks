@@ -140,11 +140,17 @@ class ASR(sb.Brain):
                 "lr": lr,
                 "optimizer": optimizer,
             }
-            self.hparams.train_logger.log_stats(
-                stats_meta=epoch_stats,
-                train_stats=self.train_stats,
-                valid_stats=stage_stats,
-            )
+            loggers = self.hparams.train_logger
+            if not isinstance(loggers, (list, tuple)):
+                loggers = [loggers]
+
+            for logger in loggers:
+                logger.log_stats(
+                    stats_meta=epoch_stats,
+                    train_stats=self.train_stats,
+                    valid_stats=stage_stats,
+                )
+
             self.checkpointer.save_and_keep_only(
                 meta={"WER": stage_stats["WER"], "epoch": epoch},
                 min_keys=["WER"],
@@ -152,10 +158,16 @@ class ASR(sb.Brain):
             )
 
         elif stage == sb.Stage.TEST:
-            self.hparams.train_logger.log_stats(
-                stats_meta={"Epoch loaded": self.hparams.epoch_counter.current},
-                test_stats=stage_stats,
-            )
+            loggers = self.hparams.train_logger
+            if not isinstance(loggers, (list, tuple)):
+                loggers = [loggers]
+
+            for logger in loggers:
+                logger.log_stats(
+                    stats_meta={"Epoch loaded": self.hparams.epoch_counter.current},
+                    test_stats=stage_stats,
+                )
+
             if if_main_process():
                 with open(
                     self.hparams.output_wer_folder, "w", encoding="utf-8"
@@ -357,7 +369,7 @@ if __name__ == "__main__":
     if hparams["pretrain_embeddings"]:
         tokens_loader = hparams["tokens_loader"]
         embs = tokens_loader.load_pretrained_embeddings(
-            hparams["pretain_embeddings_folder"]
+            hparams["pretrain_embeddings_folder"]
         )
         if isinstance(hparams["num_codebooks"], int):
             embs = embs[
@@ -386,11 +398,12 @@ if __name__ == "__main__":
             for x in module.state_dict().values()
         ]
     )
-    hparams["train_logger"].log_stats(
-        stats_meta={
+    for logger in hparams["train_logger"]:
+        logger.log_stats(
+            stats_meta={
             "Model parameters/buffers (M)": f"{model_params / 1e6:.2f}",
-        },
-    )
+            },
+        )
 
     # Trainer initialization
     asr_brain = ASR(

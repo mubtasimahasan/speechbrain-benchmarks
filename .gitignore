@@ -159,3 +159,6 @@ dmypy.json
 
 # Mac OS
 .DS_Store
+**wandb**
+**saved_files**
+**.conf
