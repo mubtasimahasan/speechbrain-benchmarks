@@ -18,14 +18,15 @@ python LibriSpeech/extraction/extract.py \
 
 
 ################### LibriSpeech
-python LibriSpeech/ASR/train.py \
-    LibriSpeech/ASR/hparams/LSTM/train.yaml \
-    --data_folder $SAVED_DIR/datasets/LibriSpeech \
-    --cached_data_folder $SAVED_DIR/cache \
-    --output_folder $SAVED_DIR/results/speech_tokenizer \
-    --tokens_folder $SAVED_DIR/save/librispeech/ \
-    --seed 1986 \
-    --pretrain_embeddings_folder $SAVED_DIR/save/embeddings/
+# python LibriSpeech/ASR/train.py \
+#     LibriSpeech/ASR/hparams/LSTM/train.yaml \
+#     --data_folder $SAVED_DIR/datasets/LibriSpeech \
+#     --cached_data_folder $SAVED_DIR/cache \
+#     --output_folder $SAVED_DIR/results/speech_tokenizer \
+#     --tokens_folder $SAVED_DIR/save/librispeech/ \
+#     --seed 1986 \
+#     --pretrain_embeddings_folder $SAVED_DIR/save/embeddings/
+
 
 ################### tune hyperparameter
 bash run_hparam_optimization.sh \

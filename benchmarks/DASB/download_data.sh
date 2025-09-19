@@ -5,7 +5,7 @@
 #   Target directory: /srv/scratch/tmp/datasets
 # ============================================================
 
-DATASET_DIR=/srv/tmp/datasets
+DATASET_DIR=/tmp/datasets
 mkdir -p "$DATASET_DIR"
 cd "$DATASET_DIR"
 
